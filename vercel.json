@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "views/**",
+          "plugin/**",
+          "assets/**",
+          ".env.otp",
+          ".env.ai",
+          ".env.admin",
+          "core/admin/**",
+          "node_modules/ffmpeg-static/**",
+          "node_modules/@napi-rs/**",
+          "plugin-manifest.json"
+        ],
+        "maxDuration": 60
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "index.js"
+    }
+  ],
+  "regions": [
+    "sin1"
+  ]
+}
