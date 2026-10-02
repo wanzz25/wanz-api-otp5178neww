@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="id" class="overflow-x-hidden">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Wanz API Hub</title>
+  <link rel="icon" id="favicon" href="">
+  
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/lucide@0.407.0/dist/umd/lucide.min.js" as="script">
+  <link rel="preload" href="/api/logo-proxy" as="image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.407.0/dist/umd/lucide.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Outfit"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            retro: {
+              black: '#0e0b24', 
+              dark: '#171340', 
+              card: '#1e1950', 
+              border: '#3c3392', 
+              orange: '#ff5c8a', 
+              light: '#f7f4ff', 
+              gray: '#a9a3d6'
+            }
+          },
+          boxShadow: {
+            glow: '0 0 25px rgba(255, 92, 138, 0.12)',
+            glowHover: '0 0 40px rgba(255, 92, 138, 0.25)',
+            btn: '0 4px 12px rgba(255, 92, 138, 0.1)'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #0e0b24;
+    }
+    .grid-bg {
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .orange-glow-blur {
+      background: radial-gradient(circle, rgba(255, 92, 138, 0.08) 0%, transparent 70%);
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0e0b24;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3c3392;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #e5e5e5;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/views/theme.css">
+</head>
+<body class="bg-retro-black text-stone-200 font-sans grid-bg min-h-screen flex flex-col justify-between selection:bg-retro-orange selection:text-retro-black relative overflow-x-hidden w-full max-w-[100vw]">
+
+  <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] orange-glow-blur pointer-events-none z-0"></div>
+  <div class="absolute bottom-10 -right-40 w-[400px] h-[400px] orange-glow-blur pointer-events-none z-0 opacity-50"></div>
+
+  <div id="page-loader" class="fixed top-0 left-0 w-screen h-screen bg-retro-black z-[9999] flex flex-col items-center justify-center gap-4 transition-all duration-500 ease-out">
+    <div class="relative w-16 h-16 flex items-center justify-center">
+      <div class="absolute inset-0 border-4 border-retro-orange/10 rounded-full"></div>
+      <div class="absolute inset-0 border-4 border-t-retro-orange border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+      <div class="w-2.5 h-2.5 bg-retro-orange rounded-full animate-pulse shadow-glow"></div>
+    </div>
+    <div class="flex flex-col items-center gap-1.5 mt-2">
+      <span class="font-mono text-[10px] tracking-[0.25em] text-white font-bold">Wanz engine</span>
+      <span class="font-mono text-[8px] tracking-[0.15em] text-stone-500 animate-pulse">Memuat sandbox aman...</span>
+    </div>
+  </div>
+
+  <header class="border-b border-retro-border/40 bg-retro-dark/80 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="/" class="flex items-center gap-3 group">
+        <img id="nav-logo-img" src="/api/logo-proxy" class="w-9 h-9 rounded-xl border-2 border-retro-border hover:border-retro-orange transition-all duration-300 object-cover shadow-lg">
+        <span id="web-title" class="font-sans font-black tracking-wider text-white text-base group-hover:text-retro-orange transition-all duration-300 flex items-center gap-2">
+          Wanz <span class="text-retro-orange font-light">//</span> <span class="text-retro-light font-bold">Api</span>
+        </span>
+      </a>
+      
+      <div class="flex items-center gap-2 font-mono text-[9px] bg-retro-orange/10 border border-retro-orange/20 px-3 py-1.5 rounded-lg text-retro-light font-extrabold tracking-wider">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>Gateway: Online</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 py-10 flex-grow w-full relative z-10 flex flex-col gap-8">
+    
+    <div class="flex justify-start items-center">
+      <a href="/" class="inline-flex items-center gap-2 bg-retro-dark border border-retro-border hover:border-retro-orange/40 text-stone-300 hover:text-white font-mono font-black text-[9px] tracking-[0.15em] px-5 py-3 rounded-xl transition-all duration-300 shadow-lg">
+        <i data-lucide="arrow-left" class="w-4 h-4 text-retro-orange animate-pulse"></i>
+        <span>Kembali ke home</span>
+      </a>
+    </div>
+    
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-retro-border/30 pb-10">
+      <div class="flex flex-col gap-2">
+        <div class="inline-flex items-center gap-2 bg-retro-orange/10 border border-retro-orange/20 px-3 py-1 rounded-full font-mono text-[9px] text-retro-light tracking-widest self-start">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Live playground</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-white font-sans">
+          Api <span class="text-retro-orange font-mono font-medium">Playground</span>
+        </h1>
+        <p class="text-stone-400 text-sm max-w-xl font-sans">
+          Eksplorasi modul, saring plugin fungsional, dan luncurkan konsol pengujian interaktif kami secara instan tanpa hambatan.
+        </p>
+      </div>
+
+      <div class="bg-retro-dark border border-retro-border/50 px-5 py-4 rounded-2xl flex items-center gap-4 shadow-xl self-start md:self-auto relative overflow-hidden group">
+        <div class="absolute inset-0 bg-gradient-to-r from-retro-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div class="w-10 h-10 rounded-xl bg-retro-orange/15 border border-retro-orange/30 flex items-center justify-center text-retro-orange shadow-inner">
+          <i data-lucide="blocks" class="w-5 h-5"></i>
+        </div>
+        <div class="relative z-10">
+          <span class="block font-mono text-[8px] text-stone-400 tracking-widest font-black">Api tersedia</span>
+          <span id="api-counter-txt" class="text-base font-mono font-black text-white leading-none">... APIs</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-retro-dark border border-retro-border/50 p-5 rounded-2xl flex flex-col gap-5 shadow-2xl relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-b from-retro-orange/[0.02] to-transparent pointer-events-none"></div>
+      <div class="relative">
+        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-stone-500"></i>
+        <input type="text" id="playground-search" placeholder="Cari endpoint atau kata kunci (contoh: asupan, brat, sticker)..." class="w-full bg-[#0a0908]/90 border border-retro-border hover:border-retro-orange/30 focus:border-retro-orange text-stone-200 text-xs font-mono rounded-xl pl-12 pr-4 py-3.5 focus:outline-none transition-all placeholder:text-stone-600 shadow-inner focus:shadow-glow">
+      </div>
+
+      <div>
+        <span class="block font-mono text-[8px] text-retro-gray tracking-[0.2em] font-black mb-3">Kategori modul:</span>
+        <div class="flex flex-wrap gap-2.5" id="category-chips">
+          <button onclick="filterCategory('ALL')" id="chip-all" class="category-chip text-[9px] font-mono font-black bg-retro-orange text-retro-black px-4 py-2 rounded-xl transition-all duration-300 cursor-pointer tracking-wider shadow-sm">All</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[250px]" id="apis-grid-container">
+      <div class="col-span-full flex flex-col items-center justify-center py-20 text-retro-gray font-mono text-xs gap-3">
+        <div class="relative w-10 h-10 flex items-center justify-center">
+          <div class="absolute inset-0 border-2 border-retro-orange/10 rounded-full animate-pulse"></div>
+          <div class="absolute inset-0 border-2 border-t-retro-orange rounded-full animate-spin"></div>
+        </div>
+        <span class="tracking-widest animate-pulse uppercase text-[10px] font-bold mt-2">Memuat daftar API Hub...</span>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="border-t border-retro-border bg-retro-dark/95 backdrop-blur-md pt-14 pb-8 relative z-10">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 mb-10 pb-10 border-b border-retro-border/30">
+        
+        <div class="md:col-span-5 flex flex-col gap-4">
+          <div class="flex items-center gap-3">
+            <img id="footer-logo-img" src="/api/logo-proxy" class="w-7 h-7 rounded-lg border border-retro-orange/30 object-cover shadow-md">
+            <span id="footer-brand-title" class="font-mono font-bold text-white uppercase tracking-wider text-xs">Wanz Api</span>
+          </div>
+          <p class="text-xs text-stone-400 leading-relaxed max-w-sm">
+            Platform integrasi API inovatif dengan kinerja modular yang andal. Menghubungkan imajinasi digital Anda dengan eksekusi kode backend mutakhir secara instan.
+          </p>
+          <span class="text-[10px] font-mono text-retro-gray mt-1">
+            Build with Craftsmanship by <b id="footer-creator" class="text-white">wanz ai</b>
+          </span>
+        </div>
+
+        <div class="md:col-span-7 flex flex-col justify-between">
+          <div>
+            <span class="block font-mono text-[10px] uppercase text-retro-light font-bold tracking-widest mb-4">HUBUNGI & IKUTI KAMI</span>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <a id="footer-wa" target="_blank" href="#" class="flex items-center gap-2 bg-retro-black/50 hover:bg-emerald-500/10 border border-retro-border hover:border-emerald-500/30 p-2.5 rounded-lg text-xs transition-all group text-stone-300 hover:text-white">
+                <i data-lucide="message-square" class="w-4.5 h-4.5 text-emerald-500 group-hover:scale-105 transition-transform"></i>
+                <div class="flex flex-col">
+                  <span class="font-mono text-[8px] text-retro-gray leading-none uppercase">WhatsApp</span>
+                  <span class="font-semibold text-[10px]">Chat Admin</span>
+                </div>
+              </a>
+              
+              <a id="footer-tg" target="_blank" href="#" class="flex items-center gap-2 bg-retro-black/50 hover:bg-sky-500/10 border border-retro-border hover:border-sky-500/30 p-2.5 rounded-lg text-xs transition-all group text-stone-300 hover:text-white">
+                <i data-lucide="send" class="w-4.5 h-4.5 text-sky-400 group-hover:scale-105 transition-transform"></i>
+                <div class="flex flex-col">
+                  <span class="font-mono text-[8px] text-retro-gray leading-none uppercase">Telegram</span>
+                  <span class="font-semibold text-[10px]">Hubungi Telegram</span>
+                </div>
+              </a>
+
+              <a id="footer-channel" target="_blank" href="#" class="flex items-center gap-2 bg-retro-black/50 hover:bg-retro-orange/10 border border-retro-border hover:border-retro-orange/30 p-2.5 rounded-lg text-xs transition-all group text-stone-300 hover:text-white">
+                <i data-lucide="radio" class="w-4.5 h-4.5 text-retro-orange group-hover:scale-105 transition-transform"></i>
+                <div class="flex flex-col">
+                  <span class="font-mono text-[8px] text-retro-gray leading-none uppercase">Saluran WA</span>
+                  <span class="font-semibold text-[10px]">Join Channel</span>
+                </div>
+              </a>
+
+              <a id="footer-ig" target="_blank" href="#" class="flex items-center gap-2 bg-retro-black/50 hover:bg-pink-500/10 border border-retro-border hover:border-pink-500/30 p-2.5 rounded-lg text-xs transition-all group text-stone-300 hover:text-white">
+                <i data-lucide="instagram" class="w-4.5 h-4.5 text-pink-500 group-hover:scale-105 transition-transform"></i>
+                <div class="flex flex-col">
+                  <span class="font-mono text-[8px] text-retro-gray leading-none uppercase">Instagram</span>
+                  <span class="font-semibold text-[10px]">Follow Updates</span>
+                </div>
+              </a>
+
+              <a id="footer-email" href="#" class="col-span-1 sm:col-span-2 flex items-center gap-2 bg-retro-black/50 hover:bg-amber-500/10 border border-retro-border hover:border-amber-500/30 p-2.5 rounded-lg text-xs transition-all group text-stone-300 hover:text-white">
+                <i data-lucide="mail" class="w-4.5 h-4.5 text-amber-500 group-hover:scale-105 transition-transform"></i>
+                <div class="flex flex-col">
+                  <span class="font-mono text-[8px] text-retro-gray leading-none uppercase">Email Resmi</span>
+                  <span class="font-semibold text-[10px] truncate" id="footer-email-txt">admin@example.com</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] font-mono text-retro-gray">
+        <div>
+          <span>© 2026</span>
+          <span class="text-retro-orange font-bold uppercase">Wanz Api Hub</span>
+          <span>• Hak Cipta Dilindungi.</span>
+        </div>
+        <div class="flex gap-4 font-bold">
+          <a href="/" class="hover:text-retro-orange transition-colors">Home</a>
+          <a href="/playground" class="text-retro-orange hover:text-white transition-colors">Playground</a>
+          <a href="/api" class="hover:text-retro-orange transition-colors">API Console</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let allEndpoints = {};
+    let activeCategory = 'ALL';
+
+    fetch('/set')
+      .then(res => res.json())
+      .then(settings => {
+        const webName = settings.webName || 'Wanz Api';
+        document.title = "Playground - " + (settings.apiTitle || "Retro API Hub");
+        document.getElementById('favicon').href = "/api/logo-proxy";
+        const titleEl = document.getElementById('web-title');
+        if (titleEl) {
+          titleEl.innerHTML = webName.replace(/\s+/g, ' <span class="text-retro-orange font-light">//</span> ');
+        }
+        document.getElementById('footer-creator').innerText = settings.creatorName || 'wanz ai';
+        document.getElementById('footer-brand-title').innerText = webName;
+        
+        const logoImg = document.getElementById('nav-logo-img');
+        if (logoImg) logoImg.src = "/api/logo-proxy";
+        
+        const footerLogoImg = document.getElementById('footer-logo-img');
+        if (footerLogoImg) footerLogoImg.src = "/api/logo-proxy";
+
+        const footerWa = document.getElementById('footer-wa');
+        if (footerWa) footerWa.href = settings.whatsappLink || '#';
+        
+        const footerIg = document.getElementById('footer-ig');
+        if (footerIg) footerIg.href = settings.instagramLink || '#';
+        
+        const footerTg = document.getElementById('footer-tg');
+        if (footerTg) footerTg.href = settings.telegramLink || '#';
+        
+        const footerChannel = document.getElementById('footer-channel');
+        if (footerChannel) footerChannel.href = settings.whatsappChannelLink || '#';
+        
+        const footerEmail = document.getElementById('footer-email');
+        if (footerEmail) footerEmail.href = settings.emailAddress ? `mailto:${settings.emailAddress}` : '#';
+        
+        const footerEmailTxt = document.getElementById('footer-email-txt');
+        if (footerEmailTxt) footerEmailTxt.innerText = settings.emailAddress || 'admin@example.com';
+
+        loadEndpoints();
+      })
+      .catch(err => {
+        console.error("Error loading settings:", err);
+        loadEndpoints();
+      });
+
+    function loadEndpoints() {
+      fetch('/endpoints')
+        .then(res => res.json())
+        .then(data => {
+          allEndpoints = data.endpoints || {};
+          document.getElementById('api-counter-txt').innerText = `${data.total || 0} APIs`;
+
+          const chipsContainer = document.getElementById('category-chips');
+          Object.keys(allEndpoints).forEach(cat => {
+            const btn = document.createElement('button');
+            btn.className = "category-chip text-[9px] font-mono font-bold bg-[#0d0c0b] hover:bg-retro-orange/15 text-stone-300 hover:text-retro-orange border border-retro-border/60 px-4 py-2 rounded-xl transition-all duration-300 cursor-pointer tracking-wider";
+            btn.innerText = cat;
+            btn.id = `chip-${cat.toLowerCase()}`;
+            btn.onclick = () => filterCategory(cat);
+            chipsContainer.appendChild(btn);
+          });
+
+          renderApis();
+          setTimeout(dismissLoader, 300);
+        })
+        .catch(err => {
+          console.error("Error loading endpoints:", err);
+          setTimeout(dismissLoader, 300);
+        });
+    }
+
+    function filterCategory(cat) {
+      activeCategory = cat;
+      const chips = document.querySelectorAll('.category-chip');
+      chips.forEach(chip => {
+        if (chip.id === `chip-${cat.toLowerCase()}`) {
+          chip.className = "category-chip text-[9px] font-mono font-black bg-retro-orange text-retro-black px-4 py-2 rounded-xl transition-all duration-300 cursor-pointer tracking-wider shadow-md";
+        } else {
+          chip.className = "category-chip text-[9px] font-mono font-bold bg-[#0d0c0b] hover:bg-retro-orange/15 text-stone-300 hover:text-retro-orange border border-retro-border/60 px-4 py-2 rounded-xl transition-all duration-300 cursor-pointer tracking-wider";
+        }
+      });
+      renderApis();
+    }
+
+    document.getElementById('playground-search').addEventListener('input', () => {
+      renderApis();
+    });
+
+    function renderApis() {
+      const query = document.getElementById('playground-search').value.toLowerCase();
+      const container = document.getElementById('apis-grid-container');
+      container.innerHTML = '';
+
+      let renderCount = 0;
+
+      Object.keys(allEndpoints).forEach(category => {
+        if (activeCategory !== 'ALL' && activeCategory !== category) return;
+
+        const endpoints = allEndpoints[category];
+        const filtered = endpoints.filter(api => 
+          api.name.toLowerCase().includes(query) || 
+          api.desc.toLowerCase().includes(query) || 
+          api.path.toLowerCase().includes(query)
+        );
+
+        filtered.forEach(api => {
+          renderCount++;
+          const card = document.createElement('div');
+          card.className = "bg-retro-dark border border-retro-border/50 hover:border-retro-orange/40 rounded-2xl p-6 shadow-lg hover:shadow-glow hover:-translate-y-1.5 transition-all duration-350 flex flex-col justify-between group relative overflow-hidden";
+          
+          // Subtle hover gradient
+          const ambient = document.createElement('div');
+          ambient.className = "absolute -right-10 -top-10 w-24 h-24 orange-glow-blur opacity-0 group-hover:opacity-40 transition-opacity pointer-events-none";
+          card.appendChild(ambient);
+
+          const rawRoutePath = api.path.split('?')[0];
+
+          card.innerHTML = `
+            <div class="relative z-10">
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <span class="text-[8px] font-mono font-black bg-[#0d0c0b] text-retro-orange border border-retro-orange/20 px-2.5 py-1 rounded-md tracking-wider">${category}</span>
+                <span class="text-[8px] font-mono font-black bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-1 rounded-md">GET</span>
+              </div>
+              
+              <h3 class="font-mono font-black text-sm tracking-tight text-white mb-2 group-hover:text-retro-orange transition-colors">${api.name}</h3>
+              
+              <p class="text-xs text-stone-400 leading-relaxed mb-5 min-h-[40px] line-clamp-3 font-sans">${api.desc}</p>
+            </div>
+
+            <div class="border-t border-retro-border/30 pt-4 mt-2 relative z-10">
+              <div class="flex items-center justify-between gap-4">
+                <code class="text-[9px] font-mono text-stone-500 truncate select-all hover:text-stone-300 transition-colors" title="${rawRoutePath}">${rawRoutePath}</code>
+                <a href="/api?endpoint=${rawRoutePath}" class="flex-shrink-0 inline-flex items-center gap-1.5 bg-retro-orange/15 hover:bg-retro-orange border border-retro-orange/20 hover:border-retro-orange text-retro-orange hover:text-retro-black font-mono font-black text-[9px] px-4 py-2.5 rounded-xl transition-all duration-300">
+                  <span>Get Api</span>
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
+                </a>
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      });
+
+      if (renderCount === 0) {
+        container.innerHTML = `
+          <div class="col-span-full flex flex-col items-center justify-center py-20 text-retro-gray font-mono text-xs gap-3">
+            <i data-lucide="alert-triangle" class="w-8 h-8 text-stone-700 animate-pulse"></i>
+            <span class="uppercase tracking-widest font-black text-[10px]">No matches found</span>
+            <span class="text-stone-500 font-sans">Tidak ada endpoint API yang cocok dengan pencarian Anda.</span>
+          </div>
+        `;
+        lucide.createIcons();
+      } else {
+        lucide.createIcons();
+      }
+    }
+
+    function dismissLoader() {
+      const loader = document.getElementById('page-loader');
+      if (loader) {
+        loader.classList.add('opacity-0');
+        loader.classList.add('pointer-events-none');
+        setTimeout(() => {
+          loader.style.display = 'none';
+        }, 500);
+      }
+    }
+
+    lucide.createIcons();
+    window.addEventListener('load', () => {
+      setTimeout(dismissLoader, 600);
+    });
+  </script>
+<script src="/views/profile-link.js" defer></script>
+</body>
+</html>
