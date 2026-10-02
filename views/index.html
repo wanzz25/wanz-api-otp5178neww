@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id" class="overflow-x-hidden">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading...</title>
+  <link rel="icon" id="favicon" href="">
+  
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/lucide@0.407.0/dist/umd/lucide.min.js" as="script">
+  <link rel="preload" href="/api/logo-proxy" as="image">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.407.0/dist/umd/lucide.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Outfit"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            retro: {
+              black: '#0e0b24', 
+              dark: '#171340', 
+              card: '#1e1950', 
+              border: '#3c3392', 
+              orange: '#ff5c8a', 
+              light: '#f7f4ff', 
+              gray: '#a9a3d6'
+            }
+          },
+          boxShadow: {
+            glow: '0 0 30px rgba(255, 92, 138, 0.12)',
+            glowHover: '0 0 45px rgba(255, 92, 138, 0.25)',
+            btn: '0 6px 20px rgba(255, 92, 138, 0.15)',
+            sticker: '0 20px 50px rgba(0, 0, 0, 0.6)'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #0e0b24;
+    }
+    .grid-bg {
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .orange-glow-blur {
+      background: radial-gradient(circle, rgba(255, 92, 138, 0.08) 0%, transparent 70%);
+    }
+    .text-glow {
+      text-shadow: 0 0 15px rgba(255, 92, 138, 0.4);
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0e0b24;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3c3392;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #e5e5e5;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/views/theme.css">
+</head>
+<body class="bg-retro-black text-stone-200 font-sans grid-bg min-h-screen flex flex-col justify-between selection:bg-retro-orange selection:text-retro-black relative overflow-x-hidden w-full max-w-[100vw]">
+
+  <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] orange-glow-blur pointer-events-none z-0"></div>
+  <div class="absolute bottom-20 -left-40 w-[500px] h-[500px] orange-glow-blur pointer-events-none z-0 opacity-40"></div>
+
+  <div id="page-loader" class="fixed top-0 left-0 w-screen h-screen bg-retro-black z-[9999] flex flex-col items-center justify-center gap-4 transition-all duration-500 ease-out">
+    <div class="relative w-16 h-16 flex items-center justify-center">
+      <div class="absolute inset-0 border-4 border-retro-orange/10 rounded-full animate-pulse"></div>
+      <div class="absolute inset-0 border-4 border-t-retro-orange border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+      <div class="w-2.5 h-2.5 bg-retro-orange rounded-full animate-pulse shadow-glow"></div>
+    </div>
+    <div class="flex flex-col items-center gap-1.5 mt-2">
+      <span class="font-mono text-[10px] tracking-[0.25em] text-white uppercase font-black">WANZ ENGINE</span>
+      <span class="font-mono text-[8px] tracking-[0.15em] text-retro-gray uppercase animate-pulse">Initializing Interface...</span>
+    </div>
+  </div>
+
+  <header class="border-b border-retro-border/40 bg-retro-dark/80 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="/" class="flex items-center gap-3 group">
+        <img id="nav-logo-img" src="/api/logo-proxy" class="w-9 h-9 rounded-xl border-2 border-retro-border hover:border-retro-orange transition-all duration-300 object-cover shadow-lg">
+        <span id="web-title" class="font-sans font-black tracking-wider text-white text-base group-hover:text-retro-orange transition-all duration-300 flex items-center gap-2">
+          Wanz <span class="text-retro-orange font-light">//</span> <span class="text-retro-light font-bold">Api</span>
+        </span>
+      </a>
+      
+      <div class="flex items-center gap-2 font-mono text-[9px] bg-retro-orange/10 border border-retro-orange/20 px-3 py-1.5 rounded-lg text-retro-light font-extrabold tracking-wider">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>Gateway: Online</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 py-12 md:py-24 flex-grow w-full flex flex-col justify-center gap-20 relative z-10">
+    
+    <div class="flex flex-col items-center text-center max-w-4xl mx-auto gap-8 my-6">
+      
+      <div class="inline-flex items-center gap-2 bg-retro-orange/10 border border-retro-orange/20 px-4 py-2 rounded-full font-mono text-[9px] text-retro-light tracking-wider">
+        <i data-lucide="shield-check" class="w-3.5 h-3.5 text-retro-orange"></i>
+        <span>Stable api endpoints v1.0</span>
+      </div>
+      
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1] font-sans">
+        The ultimate <span class="text-retro-orange font-mono font-medium drop-shadow-glow text-glow">Api Hub</span> for creative codelabs
+      </h1>
+      
+      <p class="text-stone-400 text-sm leading-relaxed max-w-2xl font-sans">
+        Integrasi fungsional super lancar tanpa basis data lambat. Nikmati pembuatan sticker, visual chat mockup premium, dan asupan feed video dengan responsivitas asinkron mutakhir langsung dari browser Anda.
+      </p>
+      
+      <div class="flex flex-wrap justify-center items-center gap-4 mt-4">
+        <a href="/playground" class="inline-flex items-center gap-4 bg-retro-orange hover:bg-white text-retro-black font-mono font-black text-sm uppercase tracking-[0.2em] px-12 py-5 rounded-2xl transition-all duration-300 shadow-btn hover:shadow-glowHover transform hover:-translate-y-1 hover:scale-105 active:translate-y-0 animate-pulse">
+          <span>Get API</span>
+          <i data-lucide="terminal" class="w-5 h-5"></i>
+        </a>
+      </div>
+
+    </div>
+
+    <div class="border-t border-retro-border/30 pt-16">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+        <div>
+          <span class="font-mono text-[9px] font-bold text-retro-orange tracking-widest">Laporan realtime gateway //</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mt-1 tracking-tight">Kinerja server & statistik live</h2>
+        </div>
+        <div class="flex items-center gap-1.5 text-[10px] font-mono text-retro-gray">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5 animate-spin text-retro-orange"></i>
+          <span>Autosync stats via core monitoring</span>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-retro-dark border border-retro-border/50 p-6 rounded-2xl shadow-lg hover:border-retro-orange/30 hover:shadow-glow/10 transition-all duration-300 group">
+          <div class="flex justify-between items-start mb-4">
+            <span class="font-mono text-[9px] text-retro-gray tracking-widest font-black">Gate state</span>
+            <span class="flex items-center gap-1 text-[8px] font-mono text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 px-2 py-0.5 rounded-md font-bold">
+              <span class="w-1 h-1 rounded-full bg-emerald-400 animate-ping"></span>
+              Online
+            </span>
+          </div>
+          <div class="flex items-baseline gap-1.5 mt-2">
+            <span class="text-3xl font-bold font-mono text-white group-hover:text-retro-orange transition-colors">99.99%</span>
+            <span class="text-[10px] text-retro-gray font-mono">Uptime</span>
+          </div>
+          <p class="text-[11px] text-stone-500 mt-2 font-mono">Gateway server aktif penuh asinkron</p>
+        </div>
+        
+        <div class="bg-retro-dark border border-retro-border/50 p-6 rounded-2xl shadow-lg hover:border-retro-orange/30 hover:shadow-glow/10 transition-all duration-300 group">
+          <div class="flex justify-between items-start mb-4">
+            <span class="font-mono text-[9px] text-retro-gray tracking-widest font-black">Velocity</span>
+            <i data-lucide="zap" class="w-4.5 h-4.5 text-retro-orange group-hover:scale-110 transition-transform"></i>
+          </div>
+          <div class="flex items-baseline gap-1.5 mt-2">
+            <span class="text-3xl font-bold font-mono text-white group-hover:text-retro-orange transition-colors">&lt; 45ms</span>
+            <span class="text-[10px] text-retro-gray font-mono">Latency</span>
+          </div>
+          <p class="text-[11px] text-stone-500 mt-2 font-mono">Render canvas & video asinkron cepat</p>
+        </div>
+        
+        <div class="bg-retro-dark border border-retro-border/50 p-6 rounded-2xl shadow-lg hover:border-retro-orange/30 hover:shadow-glow/10 transition-all duration-300 group">
+          <div class="flex justify-between items-start mb-4">
+            <span class="font-mono text-[9px] text-retro-gray tracking-widest font-black">Core engine</span>
+            <i data-lucide="cpu" class="w-4.5 h-4.5 text-retro-orange group-hover:scale-110 transition-transform"></i>
+          </div>
+          <div class="flex items-baseline gap-1.5 mt-2">
+            <span class="text-3xl font-bold font-mono text-white group-hover:text-retro-orange transition-colors">v1.0</span>
+            <span class="text-[10px] text-retro-gray font-mono">Wanz</span>
+          </div>
+          <p class="text-[11px] text-stone-500 mt-2 font-mono">Plugin-hotloaded core endpoints</p>
+        </div>
+        
+        <div class="bg-retro-dark border border-retro-border/50 p-6 rounded-2xl shadow-lg hover:border-retro-orange/30 hover:shadow-glow/10 transition-all duration-300 group">
+          <div class="flex justify-between items-start mb-4">
+            <span class="font-mono text-[9px] text-retro-gray tracking-widest font-black">Storage architecture</span>
+            <span class="text-[8px] font-mono text-retro-orange bg-retro-orange/10 border border-retro-orange/20 px-2 py-0.5 rounded-md font-bold">Secure</span>
+          </div>
+          <div class="flex items-baseline gap-1.5 mt-2">
+            <span class="text-3xl font-bold font-mono text-white group-hover:text-retro-orange transition-colors font-sans">None</span>
+            <span class="text-[10px] text-retro-gray font-mono">Db free</span>
+          </div>
+          <p class="text-[11px] text-stone-500 mt-2 font-mono">Memori asinkron instan tanpa DB lambat</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="border-t border-retro-border bg-retro-dark/95 backdrop-blur-md pt-14 pb-8 relative z-10">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 mb-10 pb-10 border-b border-retro-border/30">
+        
+        <div class="md:col-span-5 flex flex-col gap-4">
+          <div class="flex items-center gap-3">
+            <img id="footer-logo-img" src="/api/logo-proxy" class="w-7 h-7 rounded-lg border border-retro-orange/30 object-cover shadow-md">
+            <span id="footer-brand-title" class="font-mono font-bold text-white uppercase tracking-wider text-xs">Wanz Api</span>
+          </div>
+          <p class="text-xs text-stone-400 leading-relaxed max-w-sm">
+            Platform integrasi API inovatif dengan kinerja modular yang andal. Menghubungkan imajinasi digital Anda dengan eksekusi kode backend mutakhir secara instan.
+          </p>
+          <span class="text-[10px] font-mono text-retro-gray mt-1">
+            Build with Craftsmanship by <b id="footer-creator" class="text-white">wanz ai</b>
+          </span>
+        </div>
+
+        <div class="md:col-span-7 flex flex-col justify-between">
+          <div>
+            <span class="block font-mono text-[10px] text-retro-light font-bold tracking-widest mb-4">Hubungi & ikuti kami</span>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <a id="footer-wa" target="_blank" href="#" class="flex items-center gap-2 bg-retro-black/50 hover:bg-emerald-500/10 border border-retro-border hover:border-emerald-500/30 p-2.5 rounded-lg text-xs transition-all group text-stone-300 hover:text-white">
+                <i data-lucide="message-square" class="w-4.5 h-4.5 text-emerald-500 group-hover:scale-105 transition-transform"></i>
+                <div class="flex flex-col">
+                  <span class="font-mono text-[8px] text-retro-gray leading-none">WhatsApp</span>
+                  <span class="font-semibold text-[10px]">Chat Admin</span>
+                </div>
+              </a>
+              
+              <a id="footer-tg" target="_blank" href="#" class="flex items-center gap-2 bg-retro-black/50 hover:bg-sky-500/10 border border-retro-border hover:border-sky-500/30 p-2.5 rounded-lg text-xs transition-all group text-stone-300 hover:text-white">
+                <i data-lucide="send" class="w-4.5 h-4.5 text-sky-400 group-hover:scale-105 transition-transform"></i>
+                <div class="flex flex-col">
+                  <span class="font-mono text-[8px] text-retro-gray leading-none">Telegram</span>
+                  <span class="font-semibold text-[10px]">Hubungi Telegram</span>
+                </div>
+              </a>
+
+              <a id="footer-channel" target="_blank" href="#" class="flex items-center gap-2 bg-retro-black/50 hover:bg-retro-orange/10 border border-retro-border hover:border-retro-orange/30 p-2.5 rounded-lg text-xs transition-all group text-stone-300 hover:text-white">
+                <i data-lucide="radio" class="w-4.5 h-4.5 text-retro-orange group-hover:scale-105 transition-transform"></i>
+                <div class="flex flex-col">
+                  <span class="font-mono text-[8px] text-retro-gray leading-none">Saluran WA</span>
+                  <span class="font-semibold text-[10px]">Join Channel</span>
+                </div>
+              </a>
+
+              <a id="footer-ig" target="_blank" href="#" class="flex items-center gap-2 bg-retro-black/50 hover:bg-pink-500/10 border border-retro-border hover:border-pink-500/30 p-2.5 rounded-lg text-xs transition-all group text-stone-300 hover:text-white">
+                <i data-lucide="instagram" class="w-4.5 h-4.5 text-pink-500 group-hover:scale-105 transition-transform"></i>
+                <div class="flex flex-col">
+                  <span class="font-mono text-[8px] text-retro-gray leading-none">Instagram</span>
+                  <span class="font-semibold text-[10px]">Follow Updates</span>
+                </div>
+              </a>
+
+              <a id="footer-email" href="#" class="col-span-1 sm:col-span-2 flex items-center gap-2 bg-retro-black/50 hover:bg-amber-500/10 border border-retro-border hover:border-amber-500/30 p-2.5 rounded-lg text-xs transition-all group text-stone-300 hover:text-white">
+                <i data-lucide="mail" class="w-4.5 h-4.5 text-amber-500 group-hover:scale-105 transition-transform"></i>
+                <div class="flex flex-col">
+                  <span class="font-mono text-[8px] text-retro-gray leading-none">Email Resmi</span>
+                  <span class="font-semibold text-[10px] truncate" id="footer-email-txt">admin@example.com</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] font-mono text-retro-gray">
+        <div>
+          <span>© 2026</span>
+          <span class="text-retro-orange font-bold">Wanz Api Hub</span>
+          <span>• Hak Cipta Dilindungi.</span>
+        </div>
+        <div class="flex gap-4 font-bold">
+          <a href="/" class="text-retro-orange hover:text-white transition-colors">Home</a>
+          <a href="/playground" class="hover:text-retro-orange transition-colors">Playground</a>
+          <a href="/api" class="hover:text-retro-orange transition-colors">API Console</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let activeWebName = 'Wanz Api';
+    
+    function copyPrevCode() {
+      const code = `curl -X GET "https://wanz-api.run.app/api/brat?text=${encodeURIComponent(activeWebName)}"`;
+      navigator.clipboard.writeText(code).then(() => {
+        console.log("Snippet cURL berhasil disalin!");
+      });
+    }
+
+    // Dynamic configuration fetcher
+    fetch('/set')
+      .then(res => res.json())
+      .then(settings => {
+        document.title = settings.apiTitle || "Retro API Hub";
+        const favEl = document.getElementById('favicon');
+        if (favEl) favEl.href = "/api/logo-proxy";
+        
+        activeWebName = settings.webName || 'Wanz Api';
+        
+        // Update sticker text dynamically
+        const bratTextEl = document.getElementById('brat-dynamic-text');
+        if (bratTextEl) {
+          bratTextEl.innerText = activeWebName;
+        }
+
+        const titleEl = document.getElementById('web-title');
+        if (titleEl) {
+          titleEl.innerHTML = activeWebName.replace(/\s+/g, ' <span class="text-retro-orange font-light">//</span> ');
+        }
+        
+        const creatorEl = document.getElementById('footer-creator');
+        if (creatorEl) creatorEl.innerText = settings.creatorName || 'wanz ai';
+        
+        const footerBrandEl = document.getElementById('footer-brand-title');
+        if (footerBrandEl) footerBrandEl.innerText = activeWebName;
+        
+        const logoImg = document.getElementById('nav-logo-img');
+        if (logoImg) logoImg.src = "/api/logo-proxy";
+        
+        const footerLogoImg = document.getElementById('footer-logo-img');
+        if (footerLogoImg) footerLogoImg.src = "/api/logo-proxy";
+
+        const footerWa = document.getElementById('footer-wa');
+        if (footerWa) footerWa.href = settings.whatsappLink || '#';
+        
+        const footerIg = document.getElementById('footer-ig');
+        if (footerIg) footerIg.href = settings.instagramLink || '#';
+        
+        const footerTg = document.getElementById('footer-tg');
+        if (footerTg) footerTg.href = settings.telegramLink || '#';
+        
+        const footerChannel = document.getElementById('footer-channel');
+        if (footerChannel) footerChannel.href = settings.whatsappChannelLink || '#';
+        
+        const footerEmail = document.getElementById('footer-email');
+        if (footerEmail) footerEmail.href = settings.emailAddress ? `mailto:${settings.emailAddress}` : '#';
+        
+        const footerEmailTxt = document.getElementById('footer-email-txt');
+        if (footerEmailTxt) footerEmailTxt.innerText = settings.emailAddress || 'admin@example.com';
+      })
+      .catch(err => console.error("Error fetching settings:", err))
+      .finally(() => {
+        setTimeout(dismissLoader, 300);
+      });
+
+    function dismissLoader() {
+      const loader = document.getElementById('page-loader');
+      if (loader) {
+        loader.classList.add('opacity-0');
+        loader.classList.add('pointer-events-none');
+        setTimeout(() => {
+          loader.style.display = 'none';
+        }, 500);
+      }
+    }
+
+    lucide.createIcons();
+    window.addEventListener('load', () => {
+      setTimeout(dismissLoader, 600);
+    });
+  </script>
+<script src="/views/profile-link.js" defer></script>
+</body>
+</html>
