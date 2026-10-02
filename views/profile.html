@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profil - Wanz Api</title>
+  <link rel="icon" href="/views/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0e0b24;--panel:#171340;--card:#1e1950;--line:#3c3392;--text:#f7f4ff;--muted:#a9a3d6;--accent:#ff5c8a;--warn:#f59e0b;--bad:#f87171}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font:400 15px/1.6 Outfit,sans-serif;
+      background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:32px 32px}
+    a{color:var(--accent)}
+    header,main{max-width:42rem;margin:0 auto;padding:1.25rem}
+    header{display:flex;align-items:center;justify-content:space-between;padding-bottom:0}
+    .brand{display:flex;align-items:center;gap:.6rem;color:var(--text);text-decoration:none;font-weight:600}
+    .brand img{width:28px;height:28px;border-radius:8px}
+    nav{display:flex;gap:1rem;font-size:.9rem}
+    nav a{color:var(--muted);text-decoration:none}
+    nav a:hover{color:var(--text)}
+    h1{font-size:1.75rem;line-height:1.2;margin:1.75rem 0 .5rem;font-weight:700}
+    p{margin:0 0 1rem;color:var(--muted)}
+    .box{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:1.25rem;margin-top:1rem}
+    .box h2{font-size:.95rem;font-weight:600;margin:0 0 .75rem;color:var(--muted)}
+    .head{display:flex;align-items:baseline;justify-content:space-between;gap:.75rem;flex-wrap:wrap;margin-bottom:.75rem}
+    .head h2{margin:0}
+    .who{display:flex;align-items:center;gap:.75rem}
+    .who img,.av{width:52px;height:52px;border-radius:50%;background:var(--card);flex:none}
+    .av{display:grid;place-items:center;font-weight:600;font-size:1.2rem}
+    .who b{display:block;font-weight:600;font-size:1.05rem}
+    .who span{font-size:.85rem;color:var(--muted);word-break:break-all}
+    .who small{display:inline-block;font-size:.75rem;border:1px solid var(--accent);border-radius:99px;padding:0 .5rem;margin-left:.4rem;font-weight:500}
+    .who button{margin-left:auto}
+    .keybox{border-color:#5a5a5e}
+    .key{font:600 1.05rem/1.5 "JetBrains Mono",monospace;background:var(--bg);border:1px solid var(--accent);border-radius:12px;padding:1rem;word-break:break-all;user-select:all}
+    .row{display:flex;gap:.5rem;margin-top:.75rem;flex-wrap:wrap}
+    .hint{font-size:.85rem;color:var(--muted);margin:.75rem 0 0}
+    code{font-family:"JetBrains Mono",monospace;font-size:.85em;color:var(--accent)}
+    button{font:500 .875rem Outfit,sans-serif;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:.55rem .95rem;cursor:pointer}
+    button:hover{border-color:var(--muted)}
+    button.main,button.on{background:var(--accent);color:#0e0b24;border-color:var(--accent)}
+    button.danger{color:var(--bad)}
+    button:disabled{opacity:.6;cursor:wait}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+    .bar{height:8px;border-radius:99px;background:var(--bg);border:1px solid var(--line);overflow:hidden;margin-top:.75rem}
+    .bar i{display:block;height:100%;width:0;background:var(--accent)}
+    .bar i.warn{background:var(--warn)}.bar i.bad{background:var(--bad)}
+    .sentence{margin:0;color:var(--text);font-size:1.05rem}
+    .meta{font-size:.85rem;color:var(--muted);margin-top:.5rem}
+    .seg{display:flex;gap:.35rem}
+    .seg button{padding:.3rem .7rem;font-size:.8rem}
+    .chart{width:100%;height:auto;display:block;touch-action:manipulation}
+    .chart text{font:400 11px "JetBrains Mono",monospace}
+    .chart .b{fill:var(--accent);opacity:.5}
+    .chart .b.today,.chart .b.sel{opacity:1}
+    .chart .b.full{fill:var(--warn)}
+    .chart .hit{fill:transparent;cursor:pointer}
+    .chart .hit:focus{outline:none;stroke:var(--accent);stroke-width:1}
+    #picked{margin:.5rem 0 0;color:var(--text);min-height:1.6em}
+    .sum{font-size:.85rem;color:var(--muted);margin:.25rem 0 0}
+    pre{margin:0;font:400 .8rem/1.5 "JetBrains Mono",monospace;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:.9rem 1rem;overflow-x:auto;color:var(--accent)}
+    .or{margin:1rem 0;font-size:.85rem;color:var(--muted)}
+    .tabs{display:flex;gap:.5rem;margin-bottom:1rem}
+    label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:.75rem}
+    input{display:block;width:100%;margin-top:.3rem;font:400 .95rem Outfit,sans-serif;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:.65rem .8rem}
+    #gbtn{min-height:44px}
+    .err{color:var(--bad);font-size:.9rem;margin-top:.75rem}
+    [hidden]{display:none!important}
+    @media (prefers-reduced-motion:no-preference){.bar i{transition:width .5s ease}}
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/views/theme.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="/"><img src="/views/logo.png" alt=""> Wanz Api</a>
+  <nav><a href="/playground">Playground</a><a href="/api">Dokumentasi</a></nav>
+</header>
+<main>
+  <section id="login" hidden>
+    <h1>Masuk atau daftar untuk dapat apikey gratis</h1>
+    <p>Apikey dibuat otomatis untuk akunmu. Gratis <span class="lim">500</span> request per hari, kuota reset tiap pukul 00.00 WIB.</p>
+    <div class="box">
+      <div class="tabs"><button type="button" id="tabIn" class="on">Masuk</button><button type="button" id="tabUp">Daftar</button></div>
+      <form id="f" novalidate>
+        <label id="lName" hidden>Nama<input id="iName" autocomplete="name" maxlength="40"></label>
+        <label><span id="lEmail">Email atau username</span><input id="iEmail" type="text" inputmode="email" autocomplete="username" autocapitalize="none" spellcheck="false"></label>
+        <label>Password<input id="iPass" type="password" autocomplete="current-password"></label>
+        <button class="main" id="submit">Masuk</button>
+      </form>
+      <form id="fo" novalidate hidden>
+        <p style="font-size:.9rem;color:var(--muted);margin:0 0 .9rem">Kode 6 digit dikirim ke <b id="otpEmail" style="color:var(--text);word-break:break-all"></b>. Berlaku 10 menit. Cek folder spam kalau belum masuk.</p>
+        <label>Kode verifikasi<input id="iCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456" style="letter-spacing:.4em;font-size:1.2rem;text-align:center"></label>
+        <button class="main" id="vSubmit" style="width:100%">Verifikasi</button>
+        <div style="display:flex;gap:.5rem;margin-top:.6rem">
+          <button type="button" id="resend" style="flex:1" disabled>Kirim ulang</button>
+          <button type="button" id="otpBack" style="flex:1">Ganti email</button>
+        </div>
+      </form>
+      <div class="err" id="loginErr" role="alert" hidden></div>
+    </div>
+  </section>
+
+  <section id="app" hidden>
+    <h1>Profil</h1>
+    <div class="box who">
+      <img id="avatar" alt="" referrerpolicy="no-referrer" hidden><div class="av" id="av" hidden></div>
+      <div><b><span id="name"></span><small id="plan" hidden>Akun dev</small></b><span id="email"></span><br><span id="since"></span></div>
+      <button id="logout">Keluar</button>
+    </div>
+
+    <div class="box keybox">
+      <div class="head"><h2>Apikey kamu</h2></div>
+      <div class="key" id="key"></div>
+      <div class="row">
+        <button id="copy" class="main">Salin apikey</button>
+        <button id="toggle">Sembunyikan</button>
+        <button id="regen" class="danger">Buat ulang</button>
+      </div>
+      <p class="hint">Kirim lewat <code>?apikey=</code> atau header <code>x-api-key</code>. Jangan dibagikan ke orang lain.</p>
+    </div>
+
+    <div class="box">
+      <div class="head"><h2 id="limTitle">Limit apikey</h2></div>
+      <p class="sentence" id="limText"></p>
+      <div class="bar" role="progressbar" aria-label="Kuota terpakai hari ini" id="pb"><i id="fill"></i></div>
+      <div class="meta" id="reset"></div>
+    </div>
+
+    <div class="box">
+      <div class="head">
+        <h2>Pemakaian apikey per hari</h2>
+        <div class="seg" role="group" aria-label="Rentang hari">
+          <button data-d="7">7 hari</button><button data-d="14" class="on">14 hari</button><button data-d="30">30 hari</button>
+        </div>
+      </div>
+      <div id="chart"></div>
+      <p id="picked" aria-live="polite"></p>
+      <p class="sum" id="sum"></p>
+    </div>
+
+    <div class="box">
+      <div class="head"><h2>Contoh pemakaian</h2></div>
+      <pre id="curl"></pre>
+      <div class="row"><a href="/api">Lihat semua endpoint</a></div>
+    </div>
+  </section>
+  <div class="err" id="fatal" role="alert" hidden></div>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+let me = null, shown = true, clientId = '', range = 14, series = [], sel = -1;
+const nf = n => Number(n).toLocaleString('id-ID');
+
+/*CHART-START*/
+function niceMax(v){ const p = Math.pow(10, Math.floor(Math.log10(v))), f = v / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p; }
+function shortDate(d){ const [, m, day] = d.split('-'); return day + '/' + m; }
+function chartSvg(data, limit){
+  const W = 640, H = 230, L = 44, R = 8, T = 14, B = 28, iw = W - L - R, ih = H - T - B, n = data.length;
+  const max0 = Math.max(10, ...data.map(s => s.count));
+  let top = niceMax(max0);
+  if (limit && max0 >= limit * 0.5) top = Math.max(top, limit);
+  const step = iw / n, bw = Math.max(3, step * 0.62);
+  let g = '';
+  [0, 0.5, 1].forEach(t => {
+    const y = T + ih - ih * t;
+    g += `<line x1="${L}" x2="${W - R}" y1="${y}" y2="${y}" stroke="#3c3392"/><text x="${L - 6}" y="${y + 4}" text-anchor="end" fill="#a9a3d6">${nf(Math.round(top * t))}</text>`;
+  });
+  if (limit && limit <= top) {
+    const y = T + ih - ih * limit / top;
+    g += `<line x1="${L}" x2="${W - R}" y1="${y}" y2="${y}" stroke="#f59e0b" stroke-dasharray="5 4"/><text x="${W - R}" y="${y - 4}" text-anchor="end" fill="#f59e0b">Limit ${nf(limit)}</text>`;
+  }
+  const every = n <= 7 ? 1 : n <= 14 ? 2 : 5;
+  data.forEach((s, i) => {
+    const h = ih * s.count / top, x = L + i * step, y = T + ih - h;
+    const cls = 'b' + (i === n - 1 ? ' today' : '') + (limit && s.count >= limit ? ' full' : '');
+    g += `<rect class="${cls}" data-i="${i}" x="${x + (step - bw) / 2}" y="${y}" width="${bw}" height="${s.count ? Math.max(h, 2) : 0}" rx="3"/>`;
+    g += `<rect class="hit" data-i="${i}" tabindex="0" x="${x}" y="${T}" width="${step}" height="${ih}"/>`;
+    if ((n - 1 - i) % every === 0) g += `<text x="${x + step / 2}" y="${H - 8}" text-anchor="middle" fill="#a9a3d6">${shortDate(s.date)}</text>`;
+  });
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Grafik batang jumlah request apikey per hari">${g}</svg>`;
+}
+/*CHART-END*/
+
+function longDate(d){ const [y, m, day] = d.split('-').map(Number); return new Date(Date.UTC(y, m - 1, day)).toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', timeZone:'UTC'}); }
+function fmtReset(s){ const h = Math.floor(s / 3600), m = Math.ceil((s % 3600) / 60); return h ? `Kuota reset ${h} jam ${m} menit lagi (00.00 WIB)` : `Kuota reset ${m} menit lagi (00.00 WIB)`; }
+
+function pick(i){
+  sel = i;
+  document.querySelectorAll('.chart .b').forEach(r => r.classList.toggle('sel', +r.dataset.i === i));
+  const s = series[i];
+  $('picked').textContent = s ? `${longDate(s.date)}: ${nf(s.count)} request` : '';
+}
+function drawChart(limit){
+  $('chart').innerHTML = chartSvg(series, limit);
+  document.querySelectorAll('.chart .hit').forEach(r => {
+    const i = +r.dataset.i;
+    r.onpointerenter = r.onclick = r.onfocus = () => pick(i);
+  });
+  pick(series.length - 1);
+  const total = series.reduce((a, s) => a + s.count, 0), peak = series.reduce((a, s) => s.count > a.count ? s : a, series[0]);
+  $('sum').textContent = total
+    ? `Total ${nf(total)} request dalam ${series.length} hari, rata-rata ${nf(Math.round(total / series.length))} per hari, tertinggi ${nf(peak.count)} pada ${shortDate(peak.date)}.`
+    : `Belum ada request dalam ${series.length} hari terakhir.`;
+}
+async function loadUsage(){
+  try{
+    const d = await api('/auth/usage?days=' + range);
+    series = d.series; drawChart(d.limit);
+  }catch(e){ $('chart').textContent = ''; $('picked').textContent = 'Gagal memuat grafik: ' + e.message; }
+}
+
+function render(){
+  $('login').hidden = !!me; $('app').hidden = !me;
+  if(!me) return;
+  const u = me.user, dev = me.plan === 'dev';
+  $('avatar').hidden = !u.picture; if (u.picture) $('avatar').src = u.picture;
+  $('av').hidden = !!u.picture; $('av').textContent = (u.name || '?').trim().charAt(0).toUpperCase();
+  $('name').textContent = u.name; $('email').textContent = u.email;
+  $('plan').hidden = !dev; $('regen').hidden = me.provider === 'dev';
+  const via = {google:'Masuk lewat Google', local:'Masuk lewat email', dev:'Akun pengembang'}[me.provider] || '';
+  const since = me.createdAt ? ' / bergabung ' + new Date(me.createdAt).toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'numeric', timeZone:'Asia/Jakarta'}) : '';
+  $('since').textContent = via + since;
+  $('key').textContent = shown ? me.apikey : me.apikey.replace(/^(Api-).+(-wanz)$/, '$1••••••••••••••••$2');
+  $('toggle').textContent = shown ? 'Sembunyikan' : 'Tampilkan';
+  $('curl').textContent = `curl "${location.origin}/api/tools/hash-md5?apikey=${me.apikey}&text=halo"`;
+  const pct = dev ? 0 : Math.min(100, me.used / me.limit * 100);
+  $('pb').hidden = dev;
+  const f = $('fill'); f.style.width = pct + '%'; f.className = pct >= 100 ? 'bad' : pct >= 90 ? 'warn' : '';
+  $('pb').setAttribute('aria-valuenow', me.used); $('pb').setAttribute('aria-valuemax', me.limit || 0);
+  $('limTitle').textContent = dev ? 'Limit apikey: tanpa batas' : `Limit apikey: ${nf(me.limit)} request per hari`;
+  $('limText').textContent = dev
+    ? `Hari ini terpakai ${nf(me.used)} request. Akun dev tidak dibatasi.`
+    : `${nf(me.used)} dari ${nf(me.limit)} request terpakai hari ini, sisa ${nf(me.remaining)}.`;
+  $('reset').textContent = dev ? '' : fmtReset(me.resetIn);
+}
+
+async function api(path, opt){
+  const r = await fetch(path, Object.assign({credentials:'same-origin'}, opt));
+  const d = await r.json().catch(() => ({}));
+  if(!r.ok) throw Object.assign(new Error(d.error || 'Permintaan gagal'), {status:r.status});
+  return d;
+}
+function enter(d){ me = d; render(); loadUsage(); }
+
+$('toggle').onclick = () => { shown = !shown; render(); };
+$('copy').onclick = async () => {
+  try{ await navigator.clipboard.writeText(me.apikey); $('copy').textContent = 'Tersalin'; }
+  catch(_){ shown = true; render(); $('copy').textContent = 'Salin manual'; }
+  setTimeout(() => $('copy').textContent = 'Salin apikey', 1800);
+};
+$('regen').onclick = async () => {
+  if(!confirm('Apikey lama langsung tidak berlaku. Lanjutkan?')) return;
+  try{ me = await api('/auth/regenerate-key', {method:'POST'}); shown = true; render(); }
+  catch(e){ alert(e.message); }
+};
+$('logout').onclick = async () => {
+  await api('/auth/logout', {method:'POST'}).catch(() => {});
+  me = null; render();
+};
+document.querySelectorAll('.seg button').forEach(b => b.onclick = () => {
+  range = +b.dataset.d;
+  document.querySelectorAll('.seg button').forEach(x => x.classList.toggle('on', x === b));
+  loadUsage();
+});
+
+let mode = 'in';
+function setMode(m){
+  mode = m; $('tabIn').classList.toggle('on', m === 'in'); $('tabUp').classList.toggle('on', m === 'up');
+  $('lName').hidden = m === 'in'; $('lEmail').textContent = m === 'in' ? 'Email atau username' : 'Email (Gmail boleh)';
+  $('submit').textContent = m === 'in' ? 'Masuk' : 'Daftar';
+  $('iPass').autocomplete = m === 'in' ? 'current-password' : 'new-password'; $('loginErr').hidden = true;
+}
+$('tabIn').onclick = () => setMode('in'); $('tabUp').onclick = () => setMode('up');
+let otpEmail = '', resendTimer = null;
+function startResend(sec){
+  clearInterval(resendTimer);
+  const b = $('resend'); b.disabled = true;
+  const tick = () => { if(sec <= 0){ clearInterval(resendTimer); b.disabled = false; b.textContent = 'Kirim ulang'; return; } b.textContent = 'Kirim ulang (' + sec + 'd)'; sec--; };
+  tick(); resendTimer = setInterval(tick, 1000);
+}
+function showOtp(email, resendIn){
+  otpEmail = email; $('otpEmail').textContent = email;
+  $('f').hidden = true; document.querySelector('.tabs').hidden = true; $('fo').hidden = false;
+  $('iCode').value = ''; $('loginErr').hidden = true; startResend(resendIn || 60); $('iCode').focus();
+}
+function hideOtp(){
+  clearInterval(resendTimer);
+  $('fo').hidden = true; $('f').hidden = false; document.querySelector('.tabs').hidden = false; $('loginErr').hidden = true;
+}
+const showErr = m => { $('loginErr').textContent = m; $('loginErr').hidden = false; };
+const post = (path, body) => api(path, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+
+$('f').onsubmit = async e => {
+  e.preventDefault(); $('loginErr').hidden = true; $('submit').disabled = true;
+  const body = {email: $('iEmail').value, password: $('iPass').value};
+  if(mode === 'up') body.name = $('iName').value;
+  try{
+    const d = await post(mode === 'in' ? '/auth/login' : '/auth/register', body);
+    $('iPass').value = '';
+    if(d.otpRequired) showOtp(d.email, d.resendIn); else enter(d);
+  }catch(err){
+    showErr(err.message);
+    if(mode === 'up' && err.status === 429 && /Tunggu/.test(err.message)) showOtp(body.email.trim().toLowerCase(), 30);
+  }
+  $('submit').disabled = false;
+};
+$('fo').onsubmit = async e => {
+  e.preventDefault(); $('loginErr').hidden = true; $('vSubmit').disabled = true;
+  try{ enter(await post('/auth/verify-otp', {email: otpEmail, code: $('iCode').value})); hideOtp(); }
+  catch(err){ showErr(err.message); }
+  $('vSubmit').disabled = false;
+};
+$('resend').onclick = async () => {
+  $('loginErr').hidden = true; $('resend').disabled = true;
+  try{ const d = await post('/auth/resend-otp', {email: otpEmail}); startResend(d.resendIn || 60); }
+  catch(err){ showErr(err.message); startResend(+(err.resendIn) || 15); }
+};
+$('otpBack').onclick = hideOtp;
+
+(async () => {
+  try{
+    const cfg = await api('/auth/config');
+    document.querySelectorAll('.lim').forEach(e => e.textContent = cfg.dailyLimit);
+    try{ me = await api('/auth/me'); }catch(e){ if(e.status !== 401) throw e; }
+    render();
+    if(me) loadUsage();
+  }catch(e){ $('fatal').textContent = 'Gagal memuat: ' + e.message; $('fatal').hidden = false; }
+})();
+</script>
+</body>
+</html>
